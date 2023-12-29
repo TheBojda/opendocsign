@@ -1,0 +1,21 @@
+{
+  "compress": {
+    "dead_code": true,
+    "drop_console": false,
+    "drop_debugger": false,
+    "keep_classnames": true,
+    "keep_fargs": true,
+    "keep_fnames": true,
+    "keep_infinity": true
+  },
+  "mangle": {
+    "eval": false,
+    "keep_classnames": true,
+    "keep_fnames": true,
+    "toplevel": false,
+    "safari10": false
+  },
+  "output": {
+    "comments": false
+  }
+}
