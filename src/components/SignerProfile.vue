@@ -43,6 +43,14 @@
     <button type="button" class="btn btn-primary" @click="sign">
       Sign profile
     </button>
+    <button
+      type="button"
+      class="btn btn-success ms-1"
+      v-if="downloadVisible"
+      @click="downloadData"
+    >
+      Save profile as JSON
+    </button>
   </form>
 </template>
 
@@ -71,7 +79,7 @@ class SignerProfile extends Vue {
       name: "govID",
       label: "Government ID",
       required: true,
-      description: "A government ID the uniquely identifies the signer person",
+      description: "A government ID is uniquely identifies the signer person",
     },
     {
       name: "ethereumAddress",
@@ -107,6 +115,8 @@ class SignerProfile extends Vue {
 
   profileHash = "";
   profileSignature = "";
+
+  downloadVisible = false;
 
   async sign() {
     const form = this.$refs.form as HTMLFormElement;
@@ -161,6 +171,34 @@ class SignerProfile extends Vue {
       );
       return;
     }
+
+    this.downloadVisible = true;
+  }
+
+  downloadData() {
+    const signer_profile = generateSignerProfile(
+      this.formValues.KYCContractAddress,
+      this.formValues.KYCContractChainID,
+      this.formValues
+    );
+
+    const jsonData = {
+      profile: signer_profile,
+      signature: this.profileSignature,
+      hash: this.profileHash,
+    };
+
+    const jsonString = JSON.stringify(jsonData);
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "profile.json";
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+    URL.revokeObjectURL(url);
+    document.body.removeChild(a);
   }
 }
 
