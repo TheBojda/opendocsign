@@ -4241,6 +4241,11 @@ posthtml@^0.16.4, posthtml@^0.16.5:
     posthtml-parser "^0.11.0"
     posthtml-render "^3.0.0"
 
+primevue@^3.45.0:
+  version "3.45.0"
+  resolved "https://registry.yarnpkg.com/primevue/-/primevue-3.45.0.tgz#f7d4761a4c044dd58874459e81fea0de3642d6ed"
+  integrity sha512-qtA2YDi6SSBkGRb33lUXL2WnzMd7VZd4IC/YLXiUZLnxCGxqtB4iYj+jGqINNDcIFVqIYYMrc1UhiX+C68GQEQ==
+
 queue-microtask@^1.2.2, queue-microtask@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"

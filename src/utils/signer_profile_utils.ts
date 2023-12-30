@@ -1,6 +1,55 @@
 import { TypedMessage, MessageTypes, MessageTypeProperty } from '@metamask/eth-sig-util'
 import { generateTypedData } from './eip712utils'
 
+export const signer_profile_fields = [
+    {
+        name: "name",
+        label: "Full name",
+        required: true,
+        description: "Name of the signer person",
+    },
+    {
+        name: "address",
+        label: "Full address",
+        required: true,
+        description: "Address of the signer person",
+    },
+    {
+        name: "govID",
+        label: "Government ID",
+        required: true,
+        description: "A government ID is uniquely identifies the signer person",
+    },
+    {
+        name: "ethereumAddress",
+        label: "Ethereum address",
+        required: true,
+        description:
+            "The signer profile will be assigned to this Ethereum address",
+    },
+    { name: "organizationName", label: "Organization name", required: false },
+    {
+        name: "organizationAddress",
+        label: "Organization address",
+        required: false,
+    },
+    {
+        name: "organizationID",
+        label: "Organization registration number",
+        required: false,
+    },
+    {
+        name: "KYCContractChainID",
+        label: "Chain ID of the KYC Contract",
+        required: true,
+    },
+    {
+        name: "KYCContractAddress",
+        label: "KYC Contract address",
+        required: true,
+    },
+];
+
 const signer_profile_type_definition: MessageTypeProperty[] = [
     {
         name: "name",

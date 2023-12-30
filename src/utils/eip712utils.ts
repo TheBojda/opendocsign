@@ -35,7 +35,11 @@ export function hashTypedData(data: TypedMessage<MessageTypes>): string {
 }
 
 export function recoverSignature(hash: string, signature: string): string {
-    const sigParams = fromRpcSig(signature);
-    const messageHash = hexToBytes(hash);
-    return bytesToHex(publicToAddress(ecrecover(messageHash, sigParams.v, sigParams.r, sigParams.s)))
+    try {
+        const sigParams = fromRpcSig(signature);
+        const messageHash = hexToBytes(hash);
+        return bytesToHex(publicToAddress(ecrecover(messageHash, sigParams.v, sigParams.r, sigParams.s)))
+    } catch (e) {
+        return ''
+    }
 }

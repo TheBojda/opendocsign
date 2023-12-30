@@ -1,5 +1,10 @@
 <template>
-  <form ref="form" class="needs-validation" novalidate>
+  <form
+    ref="form"
+    class="needs-validation"
+    :class="{ 'was-validated': formValidated }"
+    novalidate
+  >
     <div class="mb-3" v-for="field in fields" :key="field.name">
       <label
         :for="field.name"
@@ -57,72 +62,26 @@
 <script lang="ts">
 import { Component, Vue, toNative } from "vue-facing-decorator";
 import detectEthereumProvider from "@metamask/detect-provider";
-import { generateSignerProfile } from "../utils/signer_profile_utils";
+import {
+  generateSignerProfile,
+  signer_profile_fields,
+} from "../utils/signer_profile_utils";
 import { hashTypedData, recoverSignature } from "../utils/eip712utils";
 
 @Component
 class SignerProfile extends Vue {
-  fields = [
-    {
-      name: "name",
-      label: "Full name",
-      required: true,
-      description: "Name of the signer person",
-    },
-    {
-      name: "address",
-      label: "Full address",
-      required: true,
-      description: "Address of the signer person",
-    },
-    {
-      name: "govID",
-      label: "Government ID",
-      required: true,
-      description: "A government ID is uniquely identifies the signer person",
-    },
-    {
-      name: "ethereumAddress",
-      label: "Ethereum address",
-      required: true,
-      description:
-        "The signer profile will be assigned to this Ethereum address",
-    },
-    { name: "organizationName", label: "Organization name", required: false },
-    {
-      name: "organizationAddress",
-      label: "Organization address",
-      required: false,
-    },
-    {
-      name: "organizationID",
-      label: "Organization registration number",
-      required: false,
-    },
-    {
-      name: "KYCContractChainID",
-      label: "Chain ID of the KYC Contract",
-      required: true,
-    },
-    {
-      name: "KYCContractAddress",
-      label: "KYC Contract address",
-      required: true,
-    },
-  ];
-
+  fields = signer_profile_fields;
   formValues: any = {};
-
   profileHash = "";
   profileSignature = "";
-
   downloadVisible = false;
+  formValidated = false;
 
   async sign() {
+    this.formValidated = true;
+
     const form = this.$refs.form as HTMLFormElement;
-    form.checkValidity();
-    form.classList.add("was-validated");
-    console.log();
+    if (!form.checkValidity()) return;
 
     const ethereum: any = await detectEthereumProvider();
     if (!ethereum) {

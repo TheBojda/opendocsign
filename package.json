@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Signing any document on Ethereum blockchain",
   "scripts": {
-    "build": "parcel build src/index.html",
+    "build": "rm -rf docs/* && parcel build src/index.html --dist-dir docs",
     "start": "parcel src/index.html"
   },
   "repository": "https://github.com/TheBojda/opendocsign.git",
@@ -28,6 +28,7 @@
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.2",
     "github-fork-ribbon-css": "^0.2.3",
+    "primevue": "^3.45.0",
     "vue": "^3.3.13",
     "vue-facing-decorator": "^3.0.4"
   }
