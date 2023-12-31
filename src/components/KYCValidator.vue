@@ -81,12 +81,13 @@
 import { Component, Vue, toNative } from "vue-facing-decorator";
 import FileUpload from "primevue/fileupload";
 import detectEthereumProvider from "@metamask/detect-provider";
+import { BrowserProvider, Contract } from "ethers";
 import {
   signer_profile_fields,
   generateSignerProfile,
 } from "../utils/signer_profile_utils";
 import { hashTypedData, recoverSignature } from "../utils/eip712utils";
-import { BrowserProvider, Contract } from "ethers";
+import { readFileAsJSON } from "../utils/json_file_utils";
 
 @Component({
   components: {
@@ -106,7 +107,7 @@ class KYCValidator extends Vue {
     this.validProfile = false;
 
     try {
-      const jsonContent = await this.readFileAsJSON(event.files[0]);
+      const jsonContent = await readFileAsJSON(event.files[0]);
       this.formValues = jsonContent.profile.message;
       this.formValues.KYCContractChainID = jsonContent.profile.domain.chainId;
       this.formValues.KYCContractAddress =
@@ -222,24 +223,6 @@ class KYCValidator extends Vue {
     } catch (e) {
       alert(e.reason);
     }
-  }
-
-  async readFileAsJSON(file: File): Promise<any> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        try {
-          const jsonData = JSON.parse(event.target?.result as string);
-          resolve(jsonData);
-        } catch (error) {
-          reject(error);
-        }
-      };
-      reader.onerror = (error) => {
-        reject(error);
-      };
-      reader.readAsText(file);
-    });
   }
 }
 

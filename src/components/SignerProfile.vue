@@ -67,6 +67,7 @@ import {
   signer_profile_fields,
 } from "../utils/signer_profile_utils";
 import { hashTypedData, recoverSignature } from "../utils/eip712utils";
+import { saveJSONAsFile } from "../utils/json_file_utils";
 
 @Component
 class SignerProfile extends Vue {
@@ -141,23 +142,13 @@ class SignerProfile extends Vue {
       this.formValues
     );
 
-    const jsonData = {
+    const json = {
       profile: signer_profile,
       signature: this.profileSignature,
       hash: this.profileHash,
     };
 
-    const jsonString = JSON.stringify(jsonData);
-    const blob = new Blob([jsonString], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "profile.json";
-    a.style.display = "none";
-    document.body.appendChild(a);
-    a.click();
-    URL.revokeObjectURL(url);
-    document.body.removeChild(a);
+    saveJSONAsFile(json, "profile.json");
   }
 }
 

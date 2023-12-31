@@ -1,7 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap'
 import 'github-fork-ribbon-css/gh-fork-ribbon.css';
 import 'primevue/resources/themes/lara-light-blue/theme.css'
+import '@fortawesome/fontawesome-free/css/all.css'
+import 'bootstrap'
 import { createApp } from 'vue/dist/vue.esm-bundler.js';
 import PrimeVue from 'primevue/config';
 import SignerProfile from './components/SignerProfile.vue'
