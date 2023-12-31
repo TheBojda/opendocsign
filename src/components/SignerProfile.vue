@@ -92,7 +92,7 @@ class SignerProfile extends Vue {
     const accounts = await ethereum.request({ method: "eth_requestAccounts" });
     if (accounts[0] != this.formValues.ethereumAddress) {
       alert(
-        `Invalid Ethereum address! Your current address in MetaMask is ${accounts[0]}`
+        `Invalid Ethereum address! Your current address in MetaMask is ${accounts[0]} but ${this.formValues.ethereumAddress} is set.`
       );
       return;
     }

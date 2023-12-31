@@ -69,6 +69,7 @@
         type="button"
         class="btn btn-primary ms-1"
         v-if="validProfile && validSignature"
+        @click="writeToBlockchain"
       >
         Write to the blockchain
       </button>
@@ -85,6 +86,7 @@ import {
   generateSignerProfile,
 } from "../utils/signer_profile_utils";
 import { hashTypedData, recoverSignature } from "../utils/eip712utils";
+import { BrowserProvider, Contract } from "ethers";
 
 @Component({
   components: {
@@ -183,6 +185,43 @@ class KYCValidator extends Vue {
     }
 
     this.validSignature = true;
+  }
+
+  async writeToBlockchain() {
+    const ethereum: any = await detectEthereumProvider();
+    const provider = new BrowserProvider(ethereum);
+    await provider.send("eth_requestAccounts", []);
+    const signer = await provider.getSigner();
+
+    const abi = [
+      "function registerProfile(address profileOwner, bytes32 hash, bytes calldata profileSignature, bytes calldata validatorSignature)",
+      "function getProfileHashOf(address profileOwner) view returns (bytes32)",
+    ];
+
+    const kyc_contract = new Contract(
+      this.formValues.KYCContractAddress,
+      abi,
+      signer
+    );
+
+    try {
+      await kyc_contract.registerProfile(
+        this.formValues.ethereumAddress,
+        this.profileHash,
+        this.profileSignature,
+        this.KYCSignature
+      );
+
+      const hash = await kyc_contract.getProfileHashOf(
+        this.formValues.ethereumAddress
+      );
+
+      if (hash == this.profileHash) {
+        alert("Profile is successfully written to blockchain!");
+      }
+    } catch (e) {
+      alert(e.reason);
+    }
   }
 
   async readFileAsJSON(file: File): Promise<any> {
