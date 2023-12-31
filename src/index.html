@@ -15,6 +15,7 @@
             padding: 0px;
         }
     </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
 </head>
 
 <body>
@@ -43,15 +44,17 @@
                             <button class="nav-link" id="validator-tab" data-bs-toggle="pill" data-bs-target="#validator" type="button" role="tab" aria-controls="validator" aria-selected="false">KYC validator</button>
                         </li>
                         <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="create-document-tab" data-bs-toggle="pill" data-bs-target="#create-document" type="button" role="tab" aria-controls="create-document" aria-selected="false">Create document</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
                             <button class="nav-link" id="pills-document-tab" data-bs-toggle="pill" data-bs-target="#pills-document" type="button" role="tab" aria-controls="pills-document" aria-selected="false">Sign document</button>
                         </li>
                     </ul>
                     <div class="tab-content" id="pills-tabContent">
-                        <div class="tab-pane fade show active" id="signer-profile" role="tabpanel" aria-labelledby="signer-profile-tab">
-                            
-                        </div>
-                        <div class="tab-pane fade" id="validator" role="tabpanel" aria-labelledby="validator-tab">...</div>
-                        <div class="tab-pane fade" id="pills-document" role="tabpanel" aria-labelledby="pills-document-tab">...</div>
+                        <div class="tab-pane fade show active" id="signer-profile" role="tabpanel" aria-labelledby="signer-profile-tab"></div>
+                        <div class="tab-pane fade" id="validator" role="tabpanel" aria-labelledby="validator-tab"></div>
+                        <div class="tab-pane fade" id="create-document" role="tabpanel" aria-labelledby="create-document-tab"></div>
+                        <div class="tab-pane fade" id="pills-document" role="tabpanel" aria-labelledby="pills-document-tab"></div>
                     </div>
                 </div>
             </div>
@@ -65,6 +68,7 @@
             </div>
         </footer>
     </div>
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <script src="./index.ts" type="module"></script>
 </body>
 
