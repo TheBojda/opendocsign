@@ -141,7 +141,7 @@ describe("OpenDocSign test", () => {
         };
 
         const signature = await DOCUMENT_SIGNER_1.signTypedData(domain, types, message);
-        const tx = await contract.signDocumentMetaTX(DOCUMENT_SIGNER_1.address, documentHash, MAX_UINT256, nonce, signature);
+        const tx = await contract.connect(DOCUMENT_MANAGER_SERVICE).signDocumentMetaTX(DOCUMENT_SIGNER_1.address, documentHash, MAX_UINT256, nonce, signature);
 
         const receipt = await tx.wait();
         assert(receipt);
@@ -174,7 +174,7 @@ describe("OpenDocSign test", () => {
         };
 
         const signature = await DOCUMENT_SIGNER_1.signTypedData(domain, types, message);
-        const tx = await contract.revokeDocumentSignatureMetaTX(DOCUMENT_SIGNER_1.address, documentHash, nonce, signature);
+        const tx = await contract.connect(DOCUMENT_MANAGER_SERVICE).revokeDocumentSignatureMetaTX(DOCUMENT_SIGNER_1.address, documentHash, nonce, signature);
 
         const receipt = await tx.wait();
         assert(receipt);
