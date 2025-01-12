@@ -10,7 +10,7 @@ interface IDocSignContract {
         bool revokableSignatures
     ) external;
 
-    function signDocument(bytes32 hash, uint256 validToBlockNumber) external;
+    function signDocument(bytes32 hash, uint256 validTo) external;
 
     function revokeDocumentSignature(bytes32 hash) external;
 

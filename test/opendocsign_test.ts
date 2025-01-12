@@ -129,14 +129,14 @@ describe("OpenDocSign test", () => {
             "SignDocument": [
                 { name: "signer", type: "address" },
                 { name: "hash", type: "bytes32" },
-                { name: "validToBlockNumber", type: "uint256" },
+                { name: "validTo", type: "uint256" },
                 { name: "nonce", type: "uint256" },
             ]
         }
         const message = {
             signer: DOCUMENT_SIGNER_1.address,
             hash: documentHash,
-            validToBlockNumber: MAX_UINT256,
+            validTo: MAX_UINT256,
             nonce: nonce,
         };
 

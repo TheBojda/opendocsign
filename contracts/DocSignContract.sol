@@ -27,7 +27,7 @@ contract DocSignContract is IDocSignContract, EIP712 {
     event DocumentSigned(
         bytes32 indexed hash,
         address indexed signer,
-        uint256 validToBlockNumber
+        uint256 validTo
     );
 
     event DocumentSignatureRevoked(
@@ -57,8 +57,8 @@ contract DocSignContract is IDocSignContract, EIP712 {
         emit DocumentCreated(hash, signers, revokableSignatures);
     }
 
-    function signDocument(bytes32 hash, uint256 validToBlockNumber) public {
-        _signDocument(msg.sender, hash, validToBlockNumber);
+    function signDocument(bytes32 hash, uint256 validTo) public {
+        _signDocument(msg.sender, hash, validTo);
     }
 
     function revokeDocumentSignature(bytes32 hash) public {
@@ -71,7 +71,7 @@ contract DocSignContract is IDocSignContract, EIP712 {
         bytes32 hash,
         address signer
     ) public view returns (bool) {
-        return _documentSignatures[hash][signer] != 0;
+        return _documentSignatures[hash][signer] != 0 && _documentSignatures[hash][signer] >= block.timestamp;
     }
 
     function isDocumentFullySigned(bytes32 hash) public view returns (bool) {
@@ -79,7 +79,7 @@ contract DocSignContract is IDocSignContract, EIP712 {
             if (
                 _documentSignatures[hash][_documentSigners[hash][i]] == 0 ||
                 _documentSignatures[hash][_documentSigners[hash][i]] <
-                block.number
+                block.timestamp
             ) {
                 return false;
             }
@@ -92,14 +92,14 @@ contract DocSignContract is IDocSignContract, EIP712 {
     function _signDocument(
         address signer,
         bytes32 hash,
-        uint256 validToBlockNumber
+        uint256 validTo
     ) internal {
         require(
             _documentSignatures[hash][signer] == 0,
             "Document already signed!"
         );
-        _documentSignatures[hash][signer] = validToBlockNumber;
-        emit DocumentSigned(hash, signer, validToBlockNumber);
+        _documentSignatures[hash][signer] = validTo;
+        emit DocumentSigned(hash, signer, validTo);
     }
 
     function _revokeDocumentSignature(address signer, bytes32 hash) internal {
@@ -132,7 +132,7 @@ contract DocSignContract is IDocSignContract, EIP712 {
 
     bytes32 constant SIGN_DOCUMENT_TYPEHASH =
         keccak256(
-            "SignDocument(address signer,bytes32 hash,uint256 validToBlockNumber,uint256 nonce)"
+            "SignDocument(address signer,bytes32 hash,uint256 validTo,uint256 nonce)"
         );
 
     bytes32 constant REVOKE_DOCUMENT_SIGNATURE_TYPEHASH =
@@ -145,7 +145,7 @@ contract DocSignContract is IDocSignContract, EIP712 {
     function signDocumentMetaTX(
         address signer,
         bytes32 hash,
-        uint256 validToBlockNumber,
+        uint256 validTo,
         uint256 nonce,
         bytes calldata signature
     ) public {
@@ -157,7 +157,7 @@ contract DocSignContract is IDocSignContract, EIP712 {
                         SIGN_DOCUMENT_TYPEHASH,
                         signer,
                         hash,
-                        validToBlockNumber,
+                        validTo,
                         currentNonce
                     )
                 )
@@ -170,7 +170,7 @@ contract DocSignContract is IDocSignContract, EIP712 {
             "Signature error"
         );
 
-        _signDocument(signer, hash, validToBlockNumber);
+        _signDocument(signer, hash, validTo);
     }
 
     function revokeDocumentSignatureMetaTX(
