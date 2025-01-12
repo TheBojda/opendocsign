@@ -13,13 +13,13 @@ Parameters:
 - **signers** - List of the document signer addresses (EOAs or smart contracts).
 - **revokableSignatures** - True if signatures are revokable.
 
-### signDocument(bytes32 hash, uint256 validToBlockNumber)
+### signDocument(bytes32 hash, uint256 validTo)
 
 Signers can sign the document using this method. The document is identified by its hash. This method must be called by the signer.
 
 Parameters:
 - **hash** - The hash of the document.
-- **validToBlockNumber** - The signature is valid only until this block number. If the signature should always be valid, use MAX_UINT256 (2^256-1).
+- **validTo** - The signature is valid only until this timestamp. If the signature should always be valid, use MAX_UINT256 (2^256-1).
 
 ### revokeDocumentSignature(bytes32 hash)
 
@@ -43,14 +43,14 @@ Checks if the document is fully signed by all of the registered signers.
 Parameters:
 - **hash** - The hash of the document.
 
-### signDocumentMetaTX(address signer, bytes32 hash, uint256 validToBlockNumber, uint256 nonce, bytes calldata signature)
+### signDocumentMetaTX(address signer, bytes32 hash, uint256 validTo, uint256 nonce, bytes calldata signature)
 
 Signs the document using a meta-transaction. This method allows a third party to submit the signature on behalf of the signer.
 
 Parameters:
 - **signer** - Address of the signer.
 - **hash** - The hash of the document.
-- **validToBlockNumber** - The signature is valid only until this block number. If the signature should always be valid, use MAX_UINT256 (2^256-1).
+- **validTo** - The signature is valid only until this timestamp. If the signature should always be valid, use MAX_UINT256 (2^256-1).
 - **nonce** - A unique value to prevent replay attacks.
 - **signature** - The signature of the signer.
 
